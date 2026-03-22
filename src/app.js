@@ -1,11 +1,10 @@
 import express from "express";
+import authRoute from "./routes/auth.route.js";
 
 const app = express();
 app.use(express.json());
 
-app.get("/api/auth", (req, res) => {
-  res.send("auth service");
-});
+app.use("/api/auth", authRoute);
 // app.use("/api/users", (req, res) => {
 //   res.send("auth service");
 // });
@@ -24,5 +23,18 @@ app.get("/api/auth", (req, res) => {
 // app.use("/api/history", (req, res) => {
 //   res.send("auth service");
 // });
+
+app.use((req, res, next) => {
+  return next(createHttpError.NotFound());
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.status || 500);
+  res.json({
+    status: err.status || 500,
+    message: err.message || "Internal Server Error",
+  });
+});
 
 export default app;

@@ -1,4 +1,10 @@
 @BASE_URL = http://localhost:9000
 
-#GET
+###GET
 GET {{BASE_URL}}/api/auth
+
+###POST Register
+POST {{BASE_URL}}/api/auth/register
+
+###POST Login
+POST {{BASE_URL}}/api/auth/login

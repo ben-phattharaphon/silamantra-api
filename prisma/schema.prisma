@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  user
+  assistant
+  system
+}
+
+model USERS {
+  id              Int               @id @default(autoincrement())
+  email           String            @unique // แนะนำให้ใส่ unique กันอีเมลซ้ำ
+  username        String
+  password_hash   String
+  birth_date      DateTime
+  created_at      DateTime          @default(now())
+  reading_history READING_HISTORY[]
+  orders          ORDERS[]
+  chat_sessions   Chat_Sessions[]
+}
+
+model STONES {
+  id              Int               @id @default(autoincrement())
+  stone_name      String
+  price           Decimal
+  stock_quantity  Int
+  description     String            @db.LongText
+  image_url       String
+  power_stats     Json
+  category        String
+  tags            String
+  search_vector   String            @db.LongText
+  birth_matches   BIRTH_MATCH[]
+  reading_history READING_HISTORY[]
+  order_items     ORDER_ITEMS[]
+}
+
+model BIRTH_MATCH {
+  id           Int    @id @default(autoincrement())
+  day_of_week  String
+  stoneId      Int
+  stone        STONES @relation(fields: [stoneId], references: [id], onDelete: Cascade)
+  reason_match String @db.LongText
+}
+
+model READING_HISTORY {
+  id                 Int      @id @default(autoincrement())
+  userId             Int
+  user               USERS    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stoneId            Int
+  stone              STONES   @relation(fields: [stoneId], references: [id], onDelete: Cascade)
+  moon_phase_at_time String
+  created_at         DateTime @default(now())
+}
+
+model ORDERS {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  user        USERS         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  total_price Decimal
+  status      String
+  created_at  DateTime      @default(now())
+  order_items ORDER_ITEMS[]
+  payments    PAYMENTS[]
+}
+
+model ORDER_ITEMS {
+  id                Int     @id @default(autoincrement())
+  orderId           Int
+  order             ORDERS  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  stoneId           Int
+  stone             STONES  @relation(fields: [stoneId], references: [id], onDelete: Cascade)
+  quantity          Int
+  price_at_purchase Decimal
+}
+
+model PAYMENTS {
+  id                 Int      @id @default(autoincrement())
+  orderId            Int
+  order              ORDERS   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  method             String
+  payment_slip       String
+  transaction_status String
+  paid_at            DateTime @default(now())
+}
+
+model Chat_Sessions {
+  id           Int             @id @default(autoincrement())
+  userId       Int
+  user         USERS           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String          @db.LongText
+  created_at   DateTime        @default(now())
+  updated_at   DateTime        @updatedAt // Prisma จะอัปเดตเวลาให้เองเมื่อมีการเปลี่ยนชื่อแชท
+  chat_content Chat_Messages[]
+}
+
+model Chat_Messages {
+  id          Int           @id @default(autoincrement())
+  sessionId   Int
+  session     Chat_Sessions @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role        Role // <--- ใส่ตัวนี้กลับเข้าไปครับ
+  content     String        @db.LongText
+  tokens_used Int           @default(0)
+  created_at  DateTime      @default(now())
+}
