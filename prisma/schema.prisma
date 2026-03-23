@@ -18,7 +18,25 @@ enum Role {
   system
 }
 
-model USERS {
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum StoneCategory {
+  LOVE
+  MONEY
+  WORK
+  HEALTH
+  SPIRITUAL
+}
+
+model User {
   id              Int               @id @default(autoincrement())
   email           String            @unique // แนะนำให้ใส่ unique กันอีเมลซ้ำ
   username        String
@@ -38,7 +56,7 @@ model STONES {
   description     String            @db.LongText
   image_url       String
   power_stats     Json
-  category        String
+  category        StoneCategory
   tags            String
   search_vector   String            @db.LongText
   birth_matches   BIRTH_MATCH[]
@@ -47,17 +65,17 @@ model STONES {
 }
 
 model BIRTH_MATCH {
-  id           Int    @id @default(autoincrement())
-  day_of_week  String
+  id           Int       @id @default(autoincrement())
+  day_of_week  DayOfWeek
   stoneId      Int
-  stone        STONES @relation(fields: [stoneId], references: [id], onDelete: Cascade)
-  reason_match String @db.LongText
+  stone        STONES    @relation(fields: [stoneId], references: [id], onDelete: Cascade)
+  reason_match String    @db.LongText
 }
 
 model READING_HISTORY {
   id                 Int      @id @default(autoincrement())
   userId             Int
-  user               USERS    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   stoneId            Int
   stone              STONES   @relation(fields: [stoneId], references: [id], onDelete: Cascade)
   moon_phase_at_time String
@@ -67,7 +85,7 @@ model READING_HISTORY {
 model ORDERS {
   id          Int           @id @default(autoincrement())
   userId      Int
-  user        USERS         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   total_price Decimal
   status      String
   created_at  DateTime      @default(now())
@@ -98,7 +116,7 @@ model PAYMENTS {
 model Chat_Sessions {
   id           Int             @id @default(autoincrement())
   userId       Int
-  user         USERS           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   title        String          @db.LongText
   created_at   DateTime        @default(now())
   updated_at   DateTime        @updatedAt // Prisma จะอัปเดตเวลาให้เองเมื่อมีการเปลี่ยนชื่อแชท

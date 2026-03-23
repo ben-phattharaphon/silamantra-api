@@ -5,9 +5,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
-// app.use("/api/users", (req, res) => {
-//   res.send("auth service");
-// });
+
 // app.use("/api/stones", (req, res) => {
 //   res.send("auth service");
 // });

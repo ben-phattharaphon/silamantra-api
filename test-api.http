@@ -1,10 +1,41 @@
-@BASE_URL = http://localhost:9000
+@BASE_URL = http://localhost:9001
 
 ###GET
 GET {{BASE_URL}}/api/auth
 
 ###POST Register
 POST {{BASE_URL}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "test2@gmail.com",
+  "username": "ben2",
+  "password": "123456",
+  "confirmPassword": "123456",
+  "birth_date" :"2000-02-01"
+}
 
 ###POST Login
 POST {{BASE_URL}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test2@gmail.com",
+  "password": "123456"
+}
+
+###Get me 
+GET {{BASE_URL}}/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzc0MzAxNzczLCJleHAiOjE3NzU1OTc3NzN9.vHivW-K1FDI5RsO1onXHu2oubVci9qu-fHaerWkn7vM
+
+###Update Proflie
+PATCH {{BASE_URL}}/api/auth/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzc0MzAxNzczLCJleHAiOjE3NzU1OTc3NzN9.vHivW-K1FDI5RsO1onXHu2oubVci9qu-fHaerWkn7vM
+
+{
+  
+  "username": "benrakpkeng",
+  "password": "123456rakkeng",
+  "birth_date" :"2012-12-12"
+}
