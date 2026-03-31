@@ -40,13 +40,13 @@ export async function loginService(data) {
     throw createHttpError(400, "Invalid email or password");
   }
 
-  const pwOk = await bcrypt.compare(data.password, foundUser.password_hash);
+  const pwOk = await bcrypt.compare(data.password, foundUser.password);
 
   if (!pwOk) {
     throw createHttpError(400, "Invalid email or password");
   }
 
-  const payload = { id: foundUser.id };
+  const payload = { id: foundUser.id, role: foundUser.role };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
     algorithm: "HS256",

@@ -1,0 +1,19 @@
+@BASE_URL = http://localhost:9001
+
+###Get stones
+GET {{BASE_URL}}/api/stones
+
+###Get stones by Id
+GET {{BASE_URL}}/api/stones/1
+
+###Get stone match
+GET {{BASE_URL}}/api/stones/recommend
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzc0MzEyNDQ3LCJleHAiOjE3NzU2MDg0NDd9.O9R63oWqH0NNJI4AWrMGkQD_1ZBjQq4ZZvtITEf9wBc
+
+###Search stone keyword
+POST {{BASE_URL}}/api/stones/search
+Content-Type: application/json
+
+{
+  "keyword": "love"
+}

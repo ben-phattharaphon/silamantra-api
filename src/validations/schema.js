@@ -1,17 +1,19 @@
 import { z } from "zod";
 import bcrypt from "bcrypt";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // =========================
 // REGISTER SCHEMA
 // =========================
 export const registerSchema = z
   .object({
-    email: z.string().email("Invalid email"),
+    email: z.string().trim().email("Invalid email"),
 
-    username: z.string().min(2, "username is required"),
+    username: z.string().trim().min(2, "username is required"),
 
     password: z.string().min(4, "password at least 4 characters"),
     confirmPassword: z.string().min(1, "confirm password is required"),
+    birth_date: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "confirmPassword must match password",
@@ -19,22 +21,18 @@ export const registerSchema = z
   })
   .transform(async (data) => ({
     email: data.email,
-    usernameame: data.username,
+    username: data.username,
     password: await bcrypt.hash(data.password, 10),
+    birth_date: new Date(data.birth_date),
   }));
 
 // =========================
 // LOGIN SCHEMA
 // =========================
-export const loginSchema = z
-  .object({
-    email: z.string().email("Invalid email"),
-    password: z.string().min(4, "password at least 4 characters"),
-  })
-  .transform((data) => ({
-    email: data.email,
-    password: data.password,
-  }));
+export const loginSchema = z.object({
+  email: z.string().trim().email("Invalid email"),
+  password: z.string().min(4, "password is not correct"),
+});
 
 // =========================
 // UPDATE PROFILE SCHEMA

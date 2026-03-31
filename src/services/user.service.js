@@ -29,8 +29,7 @@ export async function updateProfileService(userId, data) {
     data: validated,
   });
 
-  const { password_hash, password, createdAt, updatedAt, ...userData } =
-    updatedUser;
+  const { password, createdAt, updatedAt, ...userData } = updatedUser;
 
   return userData;
 }

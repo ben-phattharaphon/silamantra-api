@@ -3,7 +3,7 @@ import { updateProfileService } from "../services/user.service.js";
 
 //register
 export async function registerController(req, res, next) {
-  // console.log(req.body);
+  console.log(req.body);
   try {
     const result = await registerService(req.body);
     res.json({
@@ -25,6 +25,7 @@ export async function loginController(req, res, next) {
       message: "Login successful",
       token: result.token,
       user: result.user,
+      role: result.user.role,
     });
   } catch (err) {
     next(err); // ส่งไป error middleware

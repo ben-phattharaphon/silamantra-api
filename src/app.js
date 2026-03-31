@@ -1,17 +1,28 @@
 import express from "express";
+import createHttpError from "http-errors";
 import authRoute from "./routes/auth.route.js";
+import stoneRoute from "./routes/stone.route.js";
+import cors from "cors";
+import wishRoute from "./routes/wishlist.route.js";
+import orderRoute from "./routes/order.route.js";
+import adminRoute from "./routes/admin.route.js";
 
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 
 app.use("/api/auth", authRoute);
+app.use("/api/stones", stoneRoute);
+app.use("/api/wishlist", wishRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/admin", adminRoute);
 
-// app.use("/api/stones", (req, res) => {
-//   res.send("auth service");
-// });
-// app.use("/api/orders", (req, res) => {
-//   res.send("auth service");
-// });
 // app.use("/api/payments", (req, res) => {
 //   res.send("auth service");
 // });

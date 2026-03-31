@@ -5,15 +5,18 @@ import {
   registerController,
   updateProfileController,
 } from "../controllers/auth.controller.js";
-import authenticateMiddleware from "../middlewares/authenticate.middleware.js";
+import {
+  authenticate,
+  isAdmin,
+} from "../middlewares/authenticate.middleware.js";
 const authRoute = express.Router();
 
 authRoute.post("/register", registerController);
 
 authRoute.post("/login", loginController);
 
-authRoute.get("/me", authenticateMiddleware, getMeController);
+authRoute.get("/me", authenticate, getMeController);
 
-authRoute.patch("/me", authenticateMiddleware, updateProfileController);
+authRoute.patch("/me", authenticate, updateProfileController);
 
 export default authRoute;
