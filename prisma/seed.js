@@ -75,7 +75,8 @@ const stones = [
     stock_quantity: 20,
     category: "HEALTH",
 
-    image_url: "https://example.com/pearl.jpg",
+    image_url:
+      "https://i.etsystatic.com/8716863/r/il/31a168/5427012214/il_1588xN.5427012214_6hk9.jpg",
     description:
       "A symbol of purity and wisdom. Pearl is associated with emotional balance, calmness, and nurturing energy.",
     tags: "pearl,june,birthstone,purity,balance",
@@ -85,7 +86,8 @@ const stones = [
     price: "590.00",
     stock_quantity: 20,
     category: "LOVE",
-    image_url: "https://example.com/ruby.jpg",
+    image_url:
+      "https://i.etsystatic.com/23599178/r/il/353a38/2582767429/il_1588xN.2582767429_dhtl.jpg",
     description:
       "A powerful stone of passion and vitality. Ruby is believed to boost confidence, motivation, and love energy.",
     tags: "ruby,july,birthstone,passion,power,love",
@@ -95,7 +97,8 @@ const stones = [
     price: "590.00",
     stock_quantity: 20,
     category: "HEALTH",
-    image_url: "https://example.com/peridot.jpg",
+    image_url:
+      "https://i.etsystatic.com/28407175/r/il/154bd4/5171982625/il_1588xN.5171982625_7nu9.jpg",
     description:
       "A refreshing stone that brings positivity and healing. Peridot helps release negative patterns and promotes growth.",
     tags: "peridot,august,birthstone,healing,positive",
@@ -105,7 +108,8 @@ const stones = [
     price: "590.00",
     stock_quantity: 20,
     category: "WORK",
-    image_url: "https://example.com/spinel.jpg",
+    image_url:
+      "https://i.etsystatic.com/10681718/r/il/599d2b/3982765005/il_1588xN.3982765005_r0c6.jpg",
     description:
       "A revitalizing stone that inspires energy and renewal. Spinel is known to encourage motivation and reduce stress.",
     tags: "spinel,august,birthstone,energy,motivation",
@@ -116,7 +120,8 @@ const stones = [
     stock_quantity: 20,
     category: "WORK",
 
-    image_url: "https://example.com/sapphire.jpg",
+    image_url:
+      "https://i.etsystatic.com/23926983/r/il/9404d6/7523746979/il_1588xN.7523746979_ljvu.jpg",
     description:
       "A stone of wisdom and truth. Sapphire enhances focus, mental clarity, and spiritual insight.",
     tags: "sapphire,september,birthstone,wisdom,stability",

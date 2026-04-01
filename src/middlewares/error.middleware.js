@@ -11,9 +11,16 @@ export default (err, req, res, next) => {
       message: "The provided token is invalid or malformed.",
     });
   }
-  if (err.name === "ZodError") {
+  if (
+    err.name === "ZodError" ||
+    (err instanceof Error && err.name === "ZodError")
+  ) {
+    // 💡 จุดสำคัญ: ดึง message จากตัวแรกใน issues array ออกมาเป็น String
+    const firstMessage = err.issues[0]?.message || "Invalid input data";
+
     return res.status(400).json({
       success: false,
+      message: firstMessage, // ✅ ส่งอันนี้ไปให้ Toast โชว์ (เป็น String แน่นอน)
       errors: err.issues.map((e) => ({
         field: e.path[0],
         message: e.message,

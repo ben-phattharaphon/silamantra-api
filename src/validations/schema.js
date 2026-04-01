@@ -7,13 +7,18 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // =========================
 export const registerSchema = z
   .object({
-    email: z.string().trim().email("Invalid email"),
+    email: z.string().trim().min(1, "Email is required").email("Invalid email"),
 
-    username: z.string().trim().min(2, "username is required"),
+    username: z
+      .string()
+      .trim()
+      .min(2, "Username must be at least 2 characters"),
 
-    password: z.string().min(4, "password at least 4 characters"),
-    confirmPassword: z.string().min(1, "confirm password is required"),
-    birth_date: z.string(),
+    password: z.string().min(4, "Password must be at least 4 characters"),
+
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+
+    birth_date: z.string().min(1, "Birth date is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "confirmPassword must match password",
@@ -30,8 +35,15 @@ export const registerSchema = z
 // LOGIN SCHEMA
 // =========================
 export const loginSchema = z.object({
-  email: z.string().trim().email("Invalid email"),
-  password: z.string().min(4, "password is not correct"),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .email("Invalid email format"), //
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(4, "Password must be at least 4 characters"), //
 });
 
 // =========================

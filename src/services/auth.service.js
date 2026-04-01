@@ -30,33 +30,40 @@ export async function registerService(data) {
 
 //Login
 export async function loginService(data) {
-  const validated = loginSchema.parse(data);
+  try {
+    // 1. ดัก Zod ก่อนเลย
+    const validated = loginSchema.parse(data);
 
-  const foundUser = await prisma.user.findUnique({
-    where: { email: validated.email },
-  });
+    const foundUser = await prisma.user.findUnique({
+      where: { email: validated.email },
+    });
 
-  if (!foundUser) {
-    throw createHttpError(400, "Invalid email or password");
+    if (!foundUser) {
+      throw createHttpError(400, "Invalid email or password");
+    }
+
+    const pwOk = await bcrypt.compare(data.password, foundUser.password);
+
+    if (!pwOk) {
+      throw createHttpError(400, "Invalid email or password");
+    }
+
+    const payload = { id: foundUser.id, role: foundUser.role };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "15d",
+    });
+
+    const { password, createdAt, updatedAt, ...userData } = foundUser;
+
+    return { token, user: userData };
+  } catch (err) {
+    // 💡 ถ้าเป็น ZodError ให้ดึงเอาแค่ message แรกออกมาส่ง
+    if (err.name === "ZodError") {
+      const firstMsg = err.issues[0]?.message || "Invalid input";
+      throw createHttpError(400, firstMsg); // ส่งออกไปแค่ "password is not correct"
+    }
+    // ถ้าเป็น Error อื่นๆ (เช่น 400 จาก createHttpError) ให้โยนต่อไป
+    throw err;
   }
-
-  const pwOk = await bcrypt.compare(data.password, foundUser.password);
-
-  if (!pwOk) {
-    throw createHttpError(400, "Invalid email or password");
-  }
-
-  const payload = { id: foundUser.id, role: foundUser.role };
-
-  const token = jwt.sign(payload, process.env.JWT_SECRET, {
-    algorithm: "HS256",
-    expiresIn: "15d",
-  });
-
-  const { password, createdAt, updatedAt, ...userData } = foundUser;
-
-  return {
-    token,
-    user: userData,
-  };
 }
