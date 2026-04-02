@@ -36,20 +36,6 @@ export async function getStoneByIdController(req, res, next) {
   }
 }
 
-//search
-export async function searchStoneController(req, res, next) {
-  try {
-    const stones = await searchStoneService(req.body);
-
-    res.json({
-      success: true,
-      data: stones,
-    });
-  } catch (err) {
-    next(err);
-  }
-}
-
 //create stones
 export async function createStoneController(req, res, next) {
   try {

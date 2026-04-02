@@ -4,7 +4,6 @@ import {
   deleteStoneController,
   getAllStonesController,
   getStoneByIdController,
-  searchStoneController,
   updateStoneController,
 } from "../controllers/stone.controller.js";
 import {
@@ -17,7 +16,6 @@ const stoneRoute = express.Router();
 stoneRoute.get("/", getAllStonesController);
 
 stoneRoute.get("/:id", getStoneByIdController);
-stoneRoute.post("/search", searchStoneController);
 
 //admin only !!!!
 //เพิ่มข้อมูลหินในร้านค้า

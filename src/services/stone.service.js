@@ -26,49 +26,6 @@ export async function getStoneByIdService(id) {
   return stone;
 }
 
-//search
-
-export async function searchStoneService(data) {
-  const validated = searchStoneSchema.parse(data);
-
-  const { keyword, category } = validated;
-
-  const stones = await prisma.stones.findMany({
-    where: {
-      AND: [
-        category ? { category } : {},
-        {
-          OR: [
-            {
-              stone_name: { contains: keyword },
-            },
-            {
-              description: {
-                contains: keyword,
-              },
-            },
-            {
-              tags: {
-                contains: keyword,
-              },
-            },
-            {
-              search_vector: {
-                contains: keyword,
-              },
-            },
-          ],
-        },
-      ],
-    },
-    include: {
-      birth_matches: true,
-    },
-  });
-
-  return stones;
-}
-
 //crete new stones
 export async function createStoneService(stoneData) {
   const {

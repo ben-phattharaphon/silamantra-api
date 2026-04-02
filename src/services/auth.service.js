@@ -25,13 +25,13 @@ export async function registerService(data) {
 
   const { password, ...userData } = newUser;
 
-  return userData; //  return ไม่ใช่ res.json
+  return userData;
 }
 
 //Login
 export async function loginService(data) {
   try {
-    // 1. ดัก Zod ก่อนเลย
+    // ดัก Zod
     const validated = loginSchema.parse(data);
 
     const foundUser = await prisma.user.findUnique({
@@ -58,12 +58,12 @@ export async function loginService(data) {
 
     return { token, user: userData };
   } catch (err) {
-    // 💡 ถ้าเป็น ZodError ให้ดึงเอาแค่ message แรกออกมาส่ง
+    // ดึงเอาแค่ message แรกออกมาส่ง
     if (err.name === "ZodError") {
       const firstMsg = err.issues[0]?.message || "Invalid input";
       throw createHttpError(400, firstMsg); // ส่งออกไปแค่ "password is not correct"
     }
-    // ถ้าเป็น Error อื่นๆ (เช่น 400 จาก createHttpError) ให้โยนต่อไป
+
     throw err;
   }
 }
