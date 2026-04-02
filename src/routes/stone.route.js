@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createStoneController,
+  deleteStoneController,
   getAllStonesController,
   getStoneByIdController,
   searchStoneController,
@@ -26,5 +27,5 @@ stoneRoute.post("/admin", authenticate, isAdmin, createStoneController);
 stoneRoute.patch("/admin/:id", authenticate, isAdmin, updateStoneController);
 
 //ลบข้อมูลหิน
-stoneRoute.delete("/admin/:id", authenticate, isAdmin);
+stoneRoute.delete("/admin/:id", authenticate, isAdmin, deleteStoneController);
 export default stoneRoute;

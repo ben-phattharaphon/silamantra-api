@@ -3,9 +3,10 @@ import { updateProfileService } from "../services/user.service.js";
 
 //register
 export async function registerController(req, res, next) {
-  console.log(req.body);
   try {
-    const result = await registerService(req.body);
+    const { email, username, password, birth_date } = req.body;
+
+    const result = await registerService(email, username, password, birth_date);
     res.json({
       message: "Register Successful",
       result,
@@ -17,9 +18,9 @@ export async function registerController(req, res, next) {
 
 //login
 export async function loginController(req, res, next) {
-  console.log(req.headers);
   try {
-    const result = await loginService(req.body);
+    const { email, password } = req.body;
+    const result = await loginService({ email, password });
     res.json({
       success: true,
       message: "Login successful",

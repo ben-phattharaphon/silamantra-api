@@ -1,9 +1,9 @@
-import { prisma } from "../libs/prisma.js"; // 1. ดึงรายการ Wishlist ทั้งหมดของ User คนนั้น
+import { prisma } from "../libs/prisma.js";
 export async function getWishlistByUser(userId) {
   return await prisma.wishlist.findMany({
     where: { userId: Number(userId) },
     include: {
-      stone: true, // ดึงข้อมูลหิน/สินค้ามาโชว์ด้วย
+      stone: true, // ดึงข้อมูลหิน/สินค้ามาโ
     },
   });
 }

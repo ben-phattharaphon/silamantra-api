@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: ["http://localhost:5173"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   }),
 );
@@ -22,16 +22,6 @@ app.use("/api/stones", stoneRoute);
 app.use("/api/wishlist", wishRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/admin", adminRoute);
-
-// app.use("/api/payments", (req, res) => {
-//   res.send("auth service");
-// });
-// app.use("/api/chat", (req, res) => {
-//   res.send("auth service");
-// });
-// app.use("/api/history", (req, res) => {
-//   res.send("auth service");
-// });
 
 app.use((req, res, next) => {
   return next(createHttpError.NotFound());

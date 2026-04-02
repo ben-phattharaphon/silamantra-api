@@ -17,14 +17,13 @@ enum Role {
   admin
 }
 
-// รวมสถานะ Order ให้ครอบคลุมการจ่ายเงิน
 enum OrderStatus {
-  PENDING // รอดำเนินการ / ยังไม่โอน
-  WAITING // โอนแล้ว รอ Admin ตรวจสอบสลิป
-  PAID // ชำระเงินเรียบร้อย (Admin อนุมัติแล้ว)
-  SHIPPED // ส่งของแล้ว
-  COMPLETED // สำเร็จ
-  CANCELLED // ยกเลิก
+  PENDING
+  WAITING
+  PAID
+  SHIPPED
+  COMPLETED
+  CANCELLED
 }
 
 enum StoneCategory {
@@ -66,9 +65,9 @@ model Orders {
   user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   total_price Decimal
   status      OrderStatus   @default(PENDING)
-  address     String?       @db.LongText // เก็บที่อยู่จัดส่ง
+  address     String?       @db.LongText // 
   slip_image  String? // เก็บ URL รูปสลิปจาก Cloudinary
-  paid_at     DateTime? // เก็บเวลาที่โอนจริง (ถ้าต้องการ)
+  paid_at     DateTime?
   created_at  DateTime      @default(now())
   order_items Order_items[]
 }

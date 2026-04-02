@@ -1,9 +1,10 @@
 import express from "express";
+import {
+  authenticate,
+  isAdmin,
+} from "../middlewares/authenticate.middleware.js";
 
 const adminRoute = express.Router();
 
-adminRoute.get("/", (req, res) => {
-  res.json("admin kub");
-});
-
+adminRoute.get("/payment", authenticate, isAdmin);
 export default adminRoute;
