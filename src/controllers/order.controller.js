@@ -25,7 +25,7 @@ export const createOrderController = async (req, res, next) => {
     // 2. เรียกใช้ Service โดยส่ง parsedOrderItems ที่เป็น Array ไปแทน
     const result = await createOrderService({
       userId,
-      orderItems: parsedOrderItems, // <--- ใช้ตัวที่แปลงแล้ว
+      orderItems: parsedOrderItems, // ใช้ตัวที่แปลงแล้ว
       totalPrice,
       address,
       localFilePath, // ส่ง path ไปที่ service

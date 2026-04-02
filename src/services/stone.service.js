@@ -1,6 +1,6 @@
 import { prisma } from "../libs/prisma.js";
 import createHttpError from "http-errors";
-import { searchStoneSchema } from "../schemas/stone.schema.js";
+// import { searchStoneSchema } from "../validations/stone.schema.js";
 
 //
 export async function getAllStonesService() {

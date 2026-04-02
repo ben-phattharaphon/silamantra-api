@@ -5,7 +5,6 @@ import stoneRoute from "./routes/stone.route.js";
 import cors from "cors";
 import wishRoute from "./routes/wishlist.route.js";
 import orderRoute from "./routes/order.route.js";
-import adminRoute from "./routes/admin.route.js";
 
 const app = express();
 app.use(express.json());
@@ -21,7 +20,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/stones", stoneRoute);
 app.use("/api/wishlist", wishRoute);
 app.use("/api/order", orderRoute);
-app.use("/api/admin", adminRoute);
+// app.use("/api/admin", adminRoute);
 
 app.use((req, res, next) => {
   return next(createHttpError.NotFound());

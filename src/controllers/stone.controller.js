@@ -4,7 +4,6 @@ import {
   deleteStoneService,
   getAllStonesService,
   getStoneByIdService,
-  searchStoneService,
   updateStoneService,
 } from "../services/stone.service.js";
 

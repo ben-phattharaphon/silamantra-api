@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads")); // ✅ ชื่อโฟลเดอร์ที่คุณสร้างไว้
+    cb(null, path.join(__dirname, "../uploads")); //ชื่อโฟลเดอร์ที่สร้างไว้
   },
   filename: (req, file, cb) => {
     // ตั้งชื่อไฟล์: วันที่ปัจจุบัน + นามสกุลไฟล์เดิม

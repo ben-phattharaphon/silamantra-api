@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 
 //Register
 export async function registerService(data) {
+  console.log("data", data);
   // parse (มี bcrypt → ใช้ async)
   const validated = await registerSchema.parseAsync(data);
 

@@ -2,7 +2,7 @@ import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
 import { getUserBy } from "../services/user.service.js";
 
-// --- Middleware 1: สำหรับเช็คว่า Login หรือยัง (ทุุกคนที่ Login ต้องผ่านตัวนี้) ---
+// --- Middleware 1: สำหรับเช็คว่า Login หรือยัง ---
 export async function authenticate(req, res, next) {
   try {
     const authorization = req.headers.authorization;
@@ -16,16 +16,16 @@ export async function authenticate(req, res, next) {
       throw createHttpError[401]("Unauthorized: Token format invalid");
     }
 
-    // 1. Verify token
+    // Verify token
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 2. หา User ใน DB (อย่าลืมว่าใน payload ต้องมี id)
+    //  หา User ใน DB payload ต้องมี id
     const foundUser = await getUserBy("id", payload.id);
     if (!foundUser) {
       throw createHttpError[401]("Unauthorized: User not found");
     }
 
-    // 3. สร้าง userData โดยตัดข้อมูลที่ไม่สำคัญออก (รวมถึง role จะติดไปใน userData ด้วย)
+    //  สร้าง userData
     const { password, createdAt, updatedAt, ...userData } = foundUser;
 
     // 4. ฝากข้อมูลไว้ที่ req.user
@@ -33,12 +33,12 @@ export async function authenticate(req, res, next) {
 
     next();
   } catch (error) {
-    next(error); // ส่ง error ไปให้ error handler
+    next(error); // ส่ง error
   }
 }
 
-// --- Middleware 2: สำหรับเช็คว่าเป็น Admin (system) หรือเปล่า ---
-// (ตัวนี้ต้องใช้ "ต่อท้าย" authenticate เสมอ)
+// --- Middleware 2: เช็คว่าเป็น Admin (system) หรือเปล่า ---
+// ใช้ต่อท้าย authenticate
 export function isAdmin(req, res, next) {
   if (!req.user || req.user.role !== "admin") {
     return res.status(403).json({ message: "Forbidden: สำหรับแอดมินเท่านั้น" });

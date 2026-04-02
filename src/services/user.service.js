@@ -15,6 +15,7 @@ export async function createUser(data) {
 //Update Profile
 export async function updateProfileService(userId, data) {
   const validated = updateProfileSchema.parse(data);
+  // console.log("validated", validated);
 
   const foundUser = await prisma.user.findUnique({
     where: { id: userId },
@@ -29,7 +30,5 @@ export async function updateProfileService(userId, data) {
     data: validated,
   });
 
-  const { password, createdAt, updatedAt, ...userData } = updatedUser;
-
-  return userData;
+  return updatedUser;
 }

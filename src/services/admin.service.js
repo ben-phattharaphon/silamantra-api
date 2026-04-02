@@ -5,7 +5,7 @@ export async function getWaitingOrdersService() {
   //ไปหา orders ที่ส่งรอ approved
   return await prisma.orders.findMany({
     where: {
-      status: "WATING",
+      status: "WAITING",
     },
     include: {
       user: {

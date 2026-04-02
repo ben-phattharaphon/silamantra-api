@@ -14,16 +14,26 @@ export const registerSchema = z
       .trim()
       .min(2, "Username must be at least 2 characters"),
 
-    password: z.string().min(4, "Password must be at least 4 characters"),
+    password: z.coerce
+      .string()
+      .min(4, "Password must be at least 4 characters"),
 
-    confirmPassword: z.string().min(1, "Please confirm your password"),
+    confirmPassword: z.coerce.string().min(1, "Please confirm your password"),
 
     birth_date: z.string().min(1, "Birth date is required"),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "confirmPassword must match password",
-    path: ["confirmPassword"],
-  })
+  .refine(
+    (data) => {
+      console.log("data", data);
+      console.log("PW:", data.password);
+      console.log("Confirm:", data.confirmPassword);
+      return data.password === data.confirmPassword;
+    },
+    {
+      message: "confirmPassword must match password",
+      path: ["confirmPassword"],
+    },
+  )
   .transform(async (data) => ({
     email: data.email,
     username: data.username,

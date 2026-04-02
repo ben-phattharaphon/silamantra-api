@@ -1,7 +1,10 @@
-import { prisma } from "../libs/prisma";
-import { getWaitingOrdersService } from "../routes/admin.route";
+// import { prisma } from "../libs/prisma";
+import {
+  getWaitingOrdersService,
+  updatedOrderApproveService,
+} from "../services/admin.service.js";
 
-export async function getWaitingOrderCon(req, res, next) {
+export async function getWaitingOrderController(req, res, next) {
   try {
     const orders = await getWaitingOrdersService();
     resizeBy.status(200).json(orders);
@@ -10,12 +13,12 @@ export async function getWaitingOrderCon(req, res, next) {
   }
 }
 
-export async function approveOrder(req, res, next) {
+export async function approveOrderController(req, res, next) {
   try {
     const { orderId } = req.params;
     const { isApproved, note } = req.body;
 
-    const result = await updateOrderApprovalService(orderId, isApproved, note);
+    const result = await updatedOrderApproveService(orderId, isApproved, note);
 
     res.status(200).json({
       success: true,

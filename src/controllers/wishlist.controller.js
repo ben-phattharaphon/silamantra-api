@@ -26,9 +26,9 @@ export const getWishlist = async (req, res, next) => {
 
 export const deleteWishlist = async (req, res, next) => {
   try {
-    const { id } = req.params; // รับ ID ของรายการ wishlist ที่จะลบ
+    const { id } = req.params; // รับ id ของรายการ wishlist ที่จะลบ
 
-    // เรียกใช้ service ที่เราเขียนไว้ (ตรวจสอบชื่อฟังก์ชันให้ตรงกับใน service นะครับ)
+    // เรียกใช้ service ที่เขียนไว้
     const result = await removeFromWishlist(id);
 
     res.status(200).json({ message: "Removed from wishlist", result });
